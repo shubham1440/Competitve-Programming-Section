@@ -1,0 +1,46 @@
+                                                                 Appraoch Using Two pointer
+Let's say we fixed one of the numbers in the triplets as x and other numbers be a and b.(a+b+c=0) Thus, b + c = -a.
+
+If we had sorted the elements in the given array, we can easily find a pair with given sum value using a two-pointer approach.
+
+We maintain one start pointer at the beginning of the array, and an end pointer at the end of the array.
+
+Considering the sum of values at these 2 positions:
+
+    Less than the target: Shift the start pointer to right.
+    Greater than the target: Shift the end pointer to the left.
+    Equals the target: Congrats! You've found the pair.
+
+Let us understand the 2-pointer approach to find pair with given sum. Consider the given array (sorted) as
+
+A = [-10, -5, -2, 12, 13]
+
+and you need to find a pair with sum = -12.
+
+ java Code:
+ 
+ Arrays.sort(nums);
+List<List> res =new LinkedList<>();
+
+    for(int i=0;i<nums.length-2;i++)
+    {
+        if(i==0 || (i>0 && nums[i]!=nums[i-1]))
+        {
+            int lo=i+1,hi=nums.length-1,sum=0-nums[i];
+            
+            while(lo<hi){
+                if(nums[lo]+nums[hi]==sum){
+                          res.add(Arrays.asList(nums[i],nums[lo],nums[hi]));
+                
+                while(lo<hi && nums[lo]==nums[lo+1])lo++;
+                while(lo<hi && nums[hi]==nums[hi-1])hi--;
+                
+                lo++;hi--;
+                    
+                }
+                else if(nums[lo]+nums[hi]<sum) lo++;
+                else hi--;
+            }
+        }
+    }
+    return res;
